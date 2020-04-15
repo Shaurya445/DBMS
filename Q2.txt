@@ -1,0 +1,52 @@
+Q2). create database cs.student;
+
+create table personal.informartion(
+Roll.no int(5) primary key,
+Name varchar(20) not null,
+DOB date not null,
+Address varchar(50) not null,
+Marks.in.12th int(2) not null,
+Phone.number Varchar(10) not null);
+
+create table Paper.Details(
+Paper.Code int(4) primary key,
+NameofPaper char(30) unique);
+
+create table Academic.Details(
+Roll.no int(5) primary key,
+Paper.code int(4) not null,
+Attendence int(3) not null,
+Marks int(3) not null,
+foreign key(roll.no) references personal.informartion(roll.no),
+foreign key(paper.code) references Paper.details(paper.code));
+
+Q (a) Primary key – Roll.no in table personal.informartion
+                             Paper.code in table Paper.details
+        Foreign key – Roll.no in table Academic.Details
+                            Paper.code in table Academic.Details 
+
+insert into personal.informartion values(01,"pankaj singh ",'2001-01-04',"Delhi",91,9102829875);
+insert into personal.informartion values(05,"nisha singh",'2001-04-29',"Uttarakhand",89,9748483743);
+insert into personal.informartion values(09,"iccha singh",'2000-03-19',"Delhi",94,9837643368);
+insert into personal.informartion values(14,"aagya rai",'2001-09-21',"Uttar Pradesh",97,9637453672);
+insert into personal.informartion values(19,"tushar singh",'2001-11-09',"Delhi",92,9764563726);
+
+insert into paper.details value(1,"Descriptive Statistics");
+insert into paper.details value(2,"English Communication");
+insert into paper.details value(3,"Algebra");
+insert into paper.details value(4,"Introduction to Matrices");
+insert into paper.details value(5,"Database management system");
+
+insert into Academic.details values(01,2,80,70);
+insert into Academic.details values(05,2,70,90);
+insert into Academic.details values(09,2,65,91);
+insert into Academic.details values(14,2,65,91);
+insert into Academic.details values(19,1,75,65);
+
+Q(b)
+
+Q (c) select name from personal.informartion as pi, academic.details as ad where pi.roll.no=ad.roll.no and ad.marks>60 and ad.paper.code=1;
+
+Q (d) select pi.name, ad.attendence, ad.marks from personal.informartion as pi, academic.details as ad where pi.roll.no=ad.roll.no;
+
+Q (e) select name from personal.informartion as pi, academic.details as ad where pi.roll.no=ad.roll.no and pi.roll.no=(select roll.no from academic.details where marks=(select max(marks) from academic.details));

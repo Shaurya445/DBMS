@@ -1,0 +1,68 @@
+Q3) create database twowheeler;
+
+create table customer(
+CustId varchar(20) primary key,
+email varchar(50) not null,
+Name char(30) not null,
+phone varchar(10) unique,
+ReferrerID varchar(20));
+
+create table BicycleModel(
+ModelNo varchar(10) primary key,
+Manufacturer Char(20) not null,
+Style Varchar(20) not null);
+
+create table Bicycle(
+BicycleId varchar(20) primary key,
+DatePurchased date not null,
+Color Char(10) not null,
+CustId varchar(20) not null,
+ModelNo varchar(10) not null,
+foreign key(CustId) references customer(CustId),
+foreign key(ModelNo) references BicycleModel(ModelNo));
+
+create table Service(
+StartDate date not null,
+BicycleId varchar(20) not null,
+EndDate date not null,
+Foreign key(BicycleId) references Bicycle(BicycleId));
+
+
+Q (a) Primary Key - CustId in table Customer
+                    ModelNo in table BicycleModel
+                    BicycleId in table Bicycle
+         Foreign Key- CustId in table Bicycle
+                             ModelNo in table Bicycle
+                             BicycleId in table Service
+
+insert into customer values(1001,"iccha1245@gmail.com","iccha Singh",9872548121,"C1");
+insert into customer values(1002,"aagya4373@gmail.com","aagya Kumar",8373876327,"A2");
+insert into customer values(1003,"rajatkumar8653@gmail.com","Rajat Kumar",9375472814,"C3");
+insert into customer values(1004,"ghumanjoshi7368@gmail.com","ghuman Joshi",8293765392,"B7");
+insert into customer values(1005,"sidhathtiwari3753@gmail.com","sidhath Tiwari",9375428765,"C5");
+
+insert into bicyclemodel values("01","Honda","bbots");
+insert into bicyclemodel values("02","Hero","scoht");
+insert into bicyclemodel values("03","Apache","tylersquash");
+insert into bicyclemodel values("04","Hero","Biker rage");
+insert into bicyclemodel values("05","tvs","quicksilver");
+
+insert into bicycle values("1",'2003-02-05',"Red","1002","01");
+insert into bicycle values("2",'2005-05-22',”grey","1001",”05");
+insert into bicycle values("3",'2020-01-03',"Red","1004","04");
+insert into bicycle values("4",'2007-04-17',"crimson","1003","03");
+insert into bicycle values("5",'2001-02-08',"blue","1002","02");
+
+insert into service values('2019-09-09','5',"2019-09-12");
+insert into service values('2018-10-10','2','2018-10-12');
+insert into service values('2018-04-24','2','2019-04-26');
+insert into service values('2019-05-17','1','201-05-19');
+insert into service values('2020-01-18','2','2020-01-20');
+
+Q (b) Select * from customer where custID in(Select custid from bicycle where modelno in(select Modelno from bicyclemodel where manufacturer="Honda"));
+
+Q(c) Select * from bicyclemodel where modelno in(select modelno from bicycle where custid in(select custid from customer where referrerId="C1"));
+
+Q(d) select bm.manufacturer from bicycle as bi, bicyclemodel as bm where bi.modelno=bm.modelno  and bi.color="red";
+
+Q(e) select modelno from bicycle where bicycleid in(select distinct bicycleid from service)

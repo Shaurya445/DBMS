@@ -1,0 +1,77 @@
+4. create database employee_details;
+   use employee_details;
+  
+   create table employee(
+   Person_name char(30) primary key,
+   Street char(30) not null,
+   city char(15) not null);
+
+   create table Company(
+   Company_name varchar(30) Primary key,
+   City char(15));
+
+   create table Works(
+   Person_name  char(30),
+   Company_name varchar(30),
+   Salary decimal(8,2),
+   foreign key(Person_name) references employee(Person_name),
+   foreign key(Company_name) references Company(Company_name));
+
+   Create table manages(
+   Person_name char(25),
+   Manager_name char(20),
+   foreign key(Person_name) references employee(Person_name));
+
+   insert into employee values("Aagya","B-151, M Block GK ","Delhi");
+   insert into employee values("Bhavya","b-148 A chander nagar","WestBengal");
+   insert into employee values("shivalika","65/6 ews society","Gurgaon");
+   insert into employee values("Iccha","7/2 D Laxmi Nagar","Gorakpur");
+   insert into employee values("Vansh","75 Geeta Colony	","Gaziabad");
+   insert into employee values("Yash","54/2 G block","Noida");
+   insert into employee values("Lakshaya","347-5 A block","Noida");
+   insert into employee values("Sunita","65 Jaswant Nagar","Gurgaon");
+   insert into employee values("Nikunj","6 Surajmal Vihar","Bilaspur");
+   insert into employee values("Chirag","91/8 C block","Gaziabad");
+
+   insert into company values("Samba Bank","Delhi");
+   insert into company values("NCB Bank","Gurgaon");
+   insert into company values("Axis Bank","Noida");
+   insert into company values("SBI bank","Lucknow");
+   insert into company values("Kotak Bank","Gaziabad");
+
+insert into works values("aagya","Samba Bank", 20000);
+insert into works values("shivalika","NCB Bank",15000);
+insert into works values("iccha","Samba Bank",5000);
+insert into works values("bhavya","SBI Bank",8000);
+insert into works values("yash","Axis Bank",10000);
+insert into works values("vansh","NCB Bank",20000);
+insert into works values("lakshya","Kotak Bank",15000);
+insert into works values("nikunj","Axis Bank",20000);
+insert into works values("sunita","SBI Bank",12000);
+insert into works values("chirag","Kotak Bank",18000);
+
+insert into manages values("vansh","Arun Kumar");
+insert into manages values("yash","Arun Kumar");
+insert into manages values("chirag","Vijay Singh");
+insert into manages values("sunita","Raghuvir Bora");
+insert into manages values("lakshya","Shikha Chandola");
+
+Q (a) Primary Key- Person_name in table employee
+                            Company_name in table company
+        Foreign Key- Person_name in table works
+                            Company_name in table works
+                            Person_name in table manages
+
+Q (b) alter table employee add column email varchar(20);
+
+Q (c) select distinct(manager_name) from manages as m, works as w where m.person_name=w.person_name and (w.company_name="Samba bank" or w.Company_name="NCB Bank");
+
+Q (d) select e.Person_name, e.Street, e.City, w.salary from employee as e, works as w where e.person_name=w.person_name and w.company_name="Samba Bank" and w.salary>10000;
+
+Q (e) select e.person_name from employee as e, works as w, company as c where e.person_name=w.person_name and e.city=c.city and w.company_name=c.company_name;
+
+Q (f) select company_name, max(salary), min(salary), avg(salary) from works group by company_name;
+
+Q (g) select company_name, sum(salary), count(company_name) as "number of employees" from works group by company_name;
+
+Q (h) select company_name,max(salary) from works;
